@@ -1,0 +1,22 @@
+name: CD with Github Release
+
+on:
+  push:
+    branches:
+    - 'release/**'
+
+jobs:
+
+  build_aar:
+    runs-on: ubuntu-18.04
+    # only if it's a merge commit of a release branch
+    if: "contains(github.event.head_commit.message, 'Merge pull request') && contains(github.event.head_commit.message, 'release/')"
+    container:
+      image: docker://fabernovel/android:api-29-v1.1.0
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Say hello to release branch
+        run: echo "Hey you!"
